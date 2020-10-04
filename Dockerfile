@@ -11,3 +11,5 @@ ENTRYPOINT ["java", "-jar", "customerdbmigration-0.0.1-SNAPSHOT.jar"]
 
 #docker image build -t customerdbmigration .
 #docker container run -p 8080:8080 customerdbmigration
+#docker tag customerdbmigration:latest sathishssb/customerdbmigration:V0.0.1-SNAPSHOT
+#docker push sathishssb/customerdbmigration:V0.0.1-SNAPSHOT
