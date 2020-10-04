@@ -1,6 +1,6 @@
 package com.example.customerdbmigration.controller;
 
-import java.util.concurrent.ExecutionException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -30,13 +30,13 @@ public class CustomerController {
     }
 
     @PostMapping("/createCustomer")
-    public String createCustomer(@RequestBody Customer patient ) throws Exception {
-        return customerService.saveCustomerDetails(patient);
+    public String createCustomer(@RequestBody List<Customer> customer ) throws Exception {
+        return customerService.saveCustomerDetails(customer);
     }
 
     @PutMapping("/updateCustomer")
-    public String updateCustomer(@RequestBody Customer patient  ) throws Exception {
-        return customerService.updateCustomerDetails(patient);
+    public String updateCustomer(@RequestBody Customer customer  ) throws Exception {
+        return customerService.updateCustomerDetails(customer);
     }
 
     @DeleteMapping("/deleteCustomer")

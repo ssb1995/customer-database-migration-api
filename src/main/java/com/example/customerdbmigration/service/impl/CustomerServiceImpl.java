@@ -1,5 +1,6 @@
 package com.example.customerdbmigration.service.impl;
 
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import org.springframework.stereotype.Service;
@@ -20,10 +21,13 @@ public class CustomerServiceImpl
 
     public static final String collectionName="customers";
 
-    public String saveCustomerDetails(Customer customer) throws Exception {
+    public String saveCustomerDetails(List<Customer> customer) throws Exception {
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        ApiFuture<WriteResult> collectionsApiFuture = dbFirestore.collection(collectionName).document(customer.getUsername()).set(customer);
-        return collectionsApiFuture.get().getUpdateTime().toString();
+        for(Customer i : customer) {
+        	ApiFuture<WriteResult> collectionsApiFuture = dbFirestore.collection(collectionName).document(i.getUsername()).set(i);	
+        }
+        //return collectionsApiFuture.get().getUpdateTime().toString();
+        return "success";
     }
 
     public Customer getCustomerDetails(String username) throws Exception {
