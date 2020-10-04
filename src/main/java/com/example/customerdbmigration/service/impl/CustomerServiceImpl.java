@@ -1,7 +1,6 @@
 package com.example.customerdbmigration.service.impl;
 
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import org.springframework.stereotype.Service;
 
@@ -13,8 +12,11 @@ import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.cloud.FirestoreClient;
 
+import lombok.extern.slf4j.Slf4j;
+
 //CRUD operations
 @Service
+@Slf4j
 public class CustomerServiceImpl
 //implements CustomerService 
 {
@@ -24,7 +26,8 @@ public class CustomerServiceImpl
     public String saveCustomerDetails(List<Customer> customer) throws Exception {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         for(Customer i : customer) {
-        	ApiFuture<WriteResult> collectionsApiFuture = dbFirestore.collection(collectionName).document(i.getUsername()).set(i);	
+        	ApiFuture<WriteResult> collectionsApiFuture = dbFirestore.collection(collectionName).document(i.getUsername()).set(i);
+        	log.info("Saved record with username -> "+i.getUsername());
         }
         //return collectionsApiFuture.get().getUpdateTime().toString();
         return "success";
@@ -41,6 +44,7 @@ public class CustomerServiceImpl
 
         if(document.exists()) {
             customer = document.toObject(Customer.class);
+            log.info("Retrieved record with username -> "+username);
             return customer;
         }else {
             return null;
