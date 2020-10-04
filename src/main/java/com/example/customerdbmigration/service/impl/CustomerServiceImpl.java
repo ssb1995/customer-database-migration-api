@@ -1,14 +1,17 @@
 package com.example.customerdbmigration.service.impl;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import org.springframework.stereotype.Service;
 
 import com.example.customerdbmigration.model.Customer;
 import com.google.api.core.ApiFuture;
+import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
+import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.cloud.FirestoreClient;
 
@@ -50,6 +53,25 @@ public class CustomerServiceImpl
             return null;
         }
     }
+    
+    public List<Customer> getCustomerDetails() throws InterruptedException, ExecutionException {
+    	Firestore dbFirestore = FirestoreClient.getFirestore();
+        //DocumentReference documentReference = dbFirestore.collection(collectionName).document();
+        CollectionReference collectionReference = dbFirestore.collection(collectionName);
+        ApiFuture<QuerySnapshot> future = collectionReference.get();
+
+        QuerySnapshot temp = future.get();
+
+        List<Customer> customer = null;
+
+        if(temp != null) {
+            customer = temp.toObjects(Customer.class);
+            log.info("Retrieved all user details!");
+            return customer;
+        }else {
+            return null;
+        }
+	}
 
     public String updateCustomerDetails(Customer person) throws Exception {
         Firestore dbFirestore = FirestoreClient.getFirestore();

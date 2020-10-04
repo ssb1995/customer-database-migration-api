@@ -30,6 +30,15 @@ public class CustomerController {
     	}
     	return null;
     }
+    
+    @GetMapping("/getAllCustomerDetails")
+    public List<Customer> getCustomer() throws Exception{
+    	List<Customer> result = customerService.getCustomerDetails();
+    	if(result != null) {
+    		return customerService.getCustomerDetails();
+    	}
+    	return null;
+    }
 
     @PostMapping("/createCustomer")
     public String createCustomer(@RequestBody List<Customer> customer ) throws Exception {
